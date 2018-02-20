@@ -33,7 +33,6 @@ Notes.propTypes = {
   notes: PropTypes.array,
   updateNote: PropTypes.func,
   moveWithinLaneRequest: PropTypes.func,
-  fetchLanes: PropTypes.func,
 };
 
 export default Notes;
