@@ -9,4 +9,8 @@ router.route('/notes/:noteId').delete(NoteController.deleteNote);
 
 router.route('/notes/:noteId').put(NoteController.editNote);
 
+router.route('/move-note/:noteId/:sourceLaneId/:targetLaneId').put(NoteController.moveNote);
+
+router.route('/move-within/:laneId/:sourceId/:targetId').put(NoteController.moveWithin);
+
 export default router;

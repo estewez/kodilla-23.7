@@ -18,11 +18,13 @@ const Lane = (props) => {
           className={styles.LaneName}
           editing={lane.editing}
           value={lane.name}
-          onValueClick={() => editLane(lane.id)}
+          onValueClick={() => {
+            return editLane(laneId);
+          }}
           onUpdate={name => updateLane({ ...lane, name, editing: false })}
         />
         <div className={styles.LaneDelete}>
-          <button onClick={() => deleteLane(laneId)}>Remove Lane</button>
+          <button onClick={() => deleteLane(lane)}>Remove Lane</button>
         </div>
       </div>
       <NoteContainer
@@ -35,7 +37,7 @@ const Lane = (props) => {
 
 Lane.propTypes = {
   lane: PropTypes.object,
-  laneNotes: PropTypes.object,
+  laneNotes: PropTypes.array,
   addNote: PropTypes.func,
   updateLane: PropTypes.func,
   deleteLane: PropTypes.func,

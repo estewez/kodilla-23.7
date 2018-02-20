@@ -8,19 +8,14 @@ import styles from '../Lane/Lane.css';
 import { createLaneRequest, fetchLanes } from '../Lane/LaneActions';
 import { compose } from 'redux';
 
-class Kanban extends React.Component {
-  componentDidMount() {
-    this.props.fetchLanes();
-  }
-  render() {
-    return (
-      <div>
-        <button className={styles.AddLane} onClick={() => this.props.createLane({ name: 'New lane' })}>Add Lane</button>
-        <Lanes lanes={this.props.lanes} />
-      </div>
-    );
-  }
-}
+const Kanban = (props) => {
+  return (
+    <div>
+      <button className={styles.AddLane} onClick={() => props.createLane({ name: 'New lane' })}>Add Lane</button>
+      <Lanes lanes={props.lanes} />
+    </div>
+  );
+};
 
 Kanban.need = [() => { return fetchLanes(); }];
 

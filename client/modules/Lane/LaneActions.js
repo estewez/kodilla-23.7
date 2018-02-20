@@ -40,8 +40,8 @@ export function updateLane(lane) {
 
 export function updateLaneRequest(lane) {
   return (dispatch) => {
-    return callApi(`lanes/${lane.id}`, 'put', { id: lane.id }, lane).then(res => {
-      dispatch(updateLane(res));
+    return callApi(`lanes/${lane.id}`, 'put', lane).then(() => {
+      dispatch(updateLane(lane));
     });
   };
 }
@@ -55,8 +55,8 @@ export function deleteLane(laneId) {
 
 export function deleteLaneRequest(lane) {
   return (dispatch) => {
-    return callApi(`lanes/${lane.id}`, 'delete', { id: lane.id }).then(res => {
-      dispatch(deleteLane(res.id));
+    return callApi(`lanes/${lane.id}`, 'delete', { id: lane.id }).then(() => {
+      dispatch(deleteLane(lane.id));
     });
   };
 }
@@ -86,11 +86,20 @@ export function fetchLanes() {
   };
 }
 
-export function moveBetweenLanes(targetLaneId, noteId, sourceLaneId) {
+export function moveBetweenLanes(noteId, sourceLaneId, targetLaneId) {
   return {
     type: MOVE_BETWEEN_LANES,
-    targetLaneId,
     noteId,
     sourceLaneId,
+    targetLaneId,
+  };
+}
+
+export function moveBetweenLanesRequest(noteId, sourceLaneId, targetLaneId) {
+  return (dispatch) => {
+    return callApi(`move-note/${noteId}/${sourceLaneId}/${targetLaneId}`, 'put').then(() => {
+      dispatch(moveBetweenLanes(noteId, sourceLaneId, targetLaneId));
+      dispatch(fetchLanes());
+    });
   };
 }

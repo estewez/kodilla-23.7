@@ -40,10 +40,10 @@ const noteSource = {
 };
 
 const noteTarget = {
-  hover(targetProps, monitor) {
+  drop(targetProps, monitor) {
     const sourceProps = monitor.getItem();
-    if (targetProps.id !== sourceProps.id) {
-      targetProps.moveWithinLane(targetProps.laneId, targetProps.id, sourceProps.id);
+    if (targetProps.id !== sourceProps.id && targetProps.laneId === sourceProps.laneId) {
+      targetProps.moveWithinLaneRequest(targetProps.laneId, targetProps.id, sourceProps.id);
     }
   },
 };

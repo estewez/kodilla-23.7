@@ -1,4 +1,7 @@
 import callApi from '../../util/apiCaller';
+
+import { fetchLanes } from '../Lane/LaneActions';
+
 // Export Constants
 export const CREATE_NOTE = 'CREATE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
@@ -41,8 +44,8 @@ export function updateNote(note) {
 
 export function updateNoteRequest(note) {
   return (dispatch) => {
-    return callApi(`notes/${note.id}`, 'put', { id: note.id }, note).then(res => {
-      dispatch(updateNote(res));
+    return callApi(`notes/${note.id}`, 'put', note).then(() => {
+      dispatch(updateNote(note));
     });
   };
 }
@@ -76,5 +79,14 @@ export function moveWithinLane(laneId, targetId, sourceId) {
     laneId,
     targetId,
     sourceId,
+  };
+}
+
+export function moveWithinLaneRequest(laneId, targetId, sourceId) {
+  return (dispatch) => {
+    return callApi(`move-within/${laneId}/${targetId}/${sourceId}`, 'put').then(() => {
+      dispatch(moveWithinLane(laneId, targetId, sourceId));
+      dispatch(fetchLanes());
+    });
   };
 }

@@ -1,31 +1,30 @@
 import { connect } from 'react-redux';
 import Lane from './Lane';
-import { deleteLaneRequest, updateLaneRequest, editLane, moveBetweenLanes } from './LaneActions';
+import { deleteLaneRequest, updateLaneRequest, editLane, moveBetweenLanesRequest } from './LaneActions';
 import { createNoteRequest } from '../Note/NoteActions';
 import { compose } from 'redux';
 import { DropTarget } from 'react-dnd';
 import ItemTypes from '../Kanban/itemTypes';
 
 const noteTarget = {
-  hover(targetProps, monitor) {
+  drop(targetProps, monitor) {
     const sourceProps = monitor.getItem();
     const { id: noteId, laneId: sourceLaneId } = sourceProps;
-    if (!targetProps.lane.notes.length) {
-      targetProps.moveBetweenLanes(
-        targetProps.lane.id,
+    if (sourceLaneId !== targetProps.lane.id) {
+      targetProps.moveBetweenLanesRequest(
         noteId,
         sourceLaneId,
+        targetProps.lane.id,
       );
     }
   },
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(`!!${ownProps.lane.notes}`);
   return {
     laneNotes: ownProps.lane.notes.map(noteId => {
       return { ...state.notes[noteId] };
-    }),
+    }).sort((a, b) => a.sort - b.sort),
   };
 };
 
@@ -34,7 +33,7 @@ const mapDispatchToProps = {
   updateLane: updateLaneRequest,
   deleteLane: deleteLaneRequest,
   addNote: createNoteRequest,
-  moveBetweenLanes,
+  moveBetweenLanesRequest,
 };
 
 export default compose(
