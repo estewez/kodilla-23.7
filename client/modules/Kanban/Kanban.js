@@ -13,7 +13,7 @@ const Kanban = (props) => {
     <div className={styles.Kanban}>
       <div className={styles.Header}>
         <h1 className={styles.title}>Kanban</h1>
-        <button className={styles.button} onClick={() => props.createLane({ name: 'New lane' })}>Add Lane</button>
+        <button className={styles.button} onClick={() => props.createLane({ name: 'New lane (click to edit)' })}>Add Lane</button>
       </div>
       <Lanes lanes={props.lanes} />
       <div className={styles.Footer}>

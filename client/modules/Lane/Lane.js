@@ -23,7 +23,7 @@ const Lane = (props) => {
           onUpdate={name => updateLane({ ...lane, name, editing: false })}
         />
         <div>
-          <button className={styles.addButton} onClick={() => addNote({ task: 'New Note' }, laneId)}>Add Note</button>
+          <button className={styles.addButton} onClick={() => addNote({ task: 'New Note (click on text to edit)' }, laneId)}>Add Note</button>
         </div>
       </div>
       <NoteContainer
