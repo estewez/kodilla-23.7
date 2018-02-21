@@ -65,8 +65,8 @@ export function moveNote(req, res) {
         note.save().then(() => {
           targetLane.notes.push(note);
           targetLane.save();
-        });
-      }).then(() => res.json(sourceLane));
+        }).then(() => res.json(targetLane));
+      });
     });
   });
 }
@@ -76,12 +76,19 @@ export function moveWithin(req, res) {
   Lane.findOne({ id: laneId }).then(lane => {
     Note.findOne({ id: sourceId }).then(sourceNote => {
       Note.findOne({ id: targetId }).then(targetNote => {
-        const tempSort = sourceNote.sort;
+        lane.notes.forEach(note => {
+          if (note.sort > sourceNote.sort && note.sort <= targetNote.sort) {
+            note.sort -= 1;
+            note.save();
+          } else if (note.sort < sourceNote.sort && note.sort >= targetNote.sort) {
+            note.sort += 1;
+            note.save();
+          }
+        });
+        lane.notes.filter(note => note.id === sourceNote.id)[0].sort = targetNote.sort;
         sourceNote.sort = targetNote.sort;
-        targetNote.sort = tempSort;
-        sourceNote.save();
-        return targetNote.save();
-      }).then(() => res.json(lane));
+        sourceNote.save().then(() => res.json(lane));
+      });
     });
   });
 }

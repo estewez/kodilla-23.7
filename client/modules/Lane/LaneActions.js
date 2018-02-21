@@ -86,9 +86,10 @@ export function fetchLanes() {
   };
 }
 
-export function moveBetweenLanes(noteId, sourceLaneId, targetLaneId) {
+export function moveBetweenLanes(lane, noteId, sourceLaneId, targetLaneId) {
   return {
     type: MOVE_BETWEEN_LANES,
+    lane,
     noteId,
     sourceLaneId,
     targetLaneId,
@@ -97,9 +98,8 @@ export function moveBetweenLanes(noteId, sourceLaneId, targetLaneId) {
 
 export function moveBetweenLanesRequest(noteId, sourceLaneId, targetLaneId) {
   return (dispatch) => {
-    return callApi(`move-note/${noteId}/${sourceLaneId}/${targetLaneId}`, 'put').then(() => {
-      dispatch(moveBetweenLanes(noteId, sourceLaneId, targetLaneId));
-      dispatch(fetchLanes());
+    return callApi(`move-note/${noteId}/${sourceLaneId}/${targetLaneId}`, 'put').then(res => {
+      dispatch(moveBetweenLanes(res, noteId, sourceLaneId, targetLaneId));
     });
   };
 }

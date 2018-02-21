@@ -1,4 +1,5 @@
-import { CREATE_NOTE, UPDATE_NOTE, DELETE_NOTE, CREATE_NOTES, EDIT_NOTE } from './NoteActions';
+import { CREATE_NOTE, UPDATE_NOTE, DELETE_NOTE, CREATE_NOTES, EDIT_NOTE, MOVE_WITHIN_LANE } from './NoteActions';
+import { MOVE_BETWEEN_LANES } from '../Lane/LaneActions';
 
 import omit from 'lodash/omit';
 
@@ -23,6 +24,22 @@ export default function notes(state = initialState, action) {
     case CREATE_NOTES: {
       return { ...action.notes };
     }
+
+    case MOVE_WITHIN_LANE: {
+      const notesArray = action.lane.notes;
+      let copyState = state;
+      notesArray.forEach(note => {
+        copyState = { ...copyState, [note.id]: note };
+      });
+      return { ...copyState };
+    }
+
+    case MOVE_BETWEEN_LANES: {
+      const sourceNote = action.lane.notes.filter(note => note.id === action.noteId)[0];
+      sourceNote.sort = action.lane.notes.length;
+      return { ...state, [action.noteId]: sourceNote };
+    }
+
     default: {
       return state;
     }

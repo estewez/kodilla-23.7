@@ -1,14 +1,12 @@
 import callApi from '../../util/apiCaller';
 
-import { fetchLanes } from '../Lane/LaneActions';
-
 // Export Constants
 export const CREATE_NOTE = 'CREATE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const EDIT_NOTE = 'EDIT_NOTE';
-export const MOVE_WITHIN_LANE = 'MOVE_NOTES';
 export const CREATE_NOTES = 'CREATE_NOTES';
+export const MOVE_WITHIN_LANE = 'MOVE_WITHIN_LANE';
 
 // Export Actions
 
@@ -73,9 +71,10 @@ export function editNote(noteId) {
   };
 }
 
-export function moveWithinLane(laneId, targetId, sourceId) {
+export function moveWithinLane(lane, laneId, targetId, sourceId) {
   return {
     type: MOVE_WITHIN_LANE,
+    lane,
     laneId,
     targetId,
     sourceId,
@@ -84,9 +83,8 @@ export function moveWithinLane(laneId, targetId, sourceId) {
 
 export function moveWithinLaneRequest(laneId, targetId, sourceId) {
   return (dispatch) => {
-    return callApi(`move-within/${laneId}/${targetId}/${sourceId}`, 'put').then(() => {
-      dispatch(moveWithinLane(laneId, targetId, sourceId));
-      dispatch(fetchLanes());
+    return callApi(`move-within/${laneId}/${targetId}/${sourceId}`, 'put').then(res => {
+      dispatch(moveWithinLane(res, laneId, targetId, sourceId));
     });
   };
 }
