@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import styles from './Note.css';
+import style from './Note.css';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from '../Kanban/itemTypes';
 import { compose } from 'redux';
@@ -10,7 +10,7 @@ class Note extends React.Component {
     const dragSource = editing ? a => a : connectDragSource;
     return dragSource(connectDropTarget(
       <li
-        className={styles.Note}
+        className={style.Note}
         style={{
           opacity: isDragging ? 0 : 1,
         }}

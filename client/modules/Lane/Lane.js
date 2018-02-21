@@ -10,12 +10,11 @@ const Lane = (props) => {
   const laneId = lane.id;
   return connectDropTarget(
     <div className={styles.Lane}>
-      <div className={styles.LaneHeader}>
-        <div className={styles.LaneAddNote}>
-          <button onClick={() => addNote({ task: 'New Note' }, laneId)}>Add Note</button>
+      <div className={styles.name}>
+        <div>
+          <button className={styles.deleteButton} onClick={() => deleteLane(lane)}>X</button>
         </div>
         <Edit
-          className={styles.LaneName}
           editing={lane.editing}
           value={lane.name}
           onValueClick={() => {
@@ -23,8 +22,8 @@ const Lane = (props) => {
           }}
           onUpdate={name => updateLane({ ...lane, name, editing: false })}
         />
-        <div className={styles.LaneDelete}>
-          <button onClick={() => deleteLane(lane)}>Remove Lane</button>
+        <div>
+          <button className={styles.addButton} onClick={() => addNote({ task: 'New Note' }, laneId)}>Add Note</button>
         </div>
       </div>
       <NoteContainer

@@ -4,15 +4,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Lanes from '../Lane/Lanes';
-import styles from '../Lane/Lane.css';
+import styles from './Kanban.css';
 import { createLaneRequest, fetchLanes } from '../Lane/LaneActions';
 import { compose } from 'redux';
 
 const Kanban = (props) => {
   return (
-    <div>
-      <button className={styles.AddLane} onClick={() => props.createLane({ name: 'New lane' })}>Add Lane</button>
+    <div className={styles.Kanban}>
+      <div className={styles.Header}>
+        <h1 className={styles.title}>Kanban</h1>
+        <button className={styles.button} onClick={() => props.createLane({ name: 'New lane' })}>Add Lane</button>
+      </div>
       <Lanes lanes={props.lanes} />
+      <div className={styles.Footer}>
+        <h2>© 2018 Tomasz Pajor</h2>
+      </div>
     </div>
   );
 };

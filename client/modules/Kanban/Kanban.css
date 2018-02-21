@@ -1,0 +1,43 @@
+.Kanban {
+    background-color: #eee;
+    min-height: 100vh;
+}
+
+.Header {
+    background-color: #ddd;
+    padding: 5vh 20vw 0 22.5vw;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+.title {
+    font-size: 5rem;
+}
+
+.button {
+    margin-left: 40vw;
+    border: none;
+    padding: 1vh;
+    color: white;
+    background-color: #aaa;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.5s;
+    margin-bottom: 2px;
+}
+
+.button:hover {
+    background-color: #777;
+}
+
+.Footer {
+    text-align: center;
+    color: white;
+    background-color: #ddd;
+    width: 100%;
+    font-size: 1.2rem;
+    font-family: 'Lato', sans-serif;
+    padding: 1vh 0;
+    margin-bottom: 0;
+    margin-top: 5vh;
+}
