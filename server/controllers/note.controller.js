@@ -38,8 +38,19 @@ export function deleteNote(req, res) {
     if (err) {
       res.status(500).send(err);
     }
-    note.remove(() => {
-      res.status(200).end();
+    Lane.findOne({ id: req.params.laneId }).then(lane => {
+      lane.notes.pull(note);
+      lane.notes.forEach(noteUpdateSort => {
+        if (noteUpdateSort.sort > note.sort) {
+          noteUpdateSort.sort -= 1;
+          noteUpdateSort.save();
+        }
+      });
+      lane.save().then(() => {
+        note.remove(() => {
+          res.json(lane);
+        });
+      });
     });
   });
 }
