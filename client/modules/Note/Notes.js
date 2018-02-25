@@ -9,6 +9,7 @@ const Notes = ({ notes, laneId, editNote, updateNote, deleteNote, moveWithinLane
       key={note.id}
       moveWithinLaneRequest={moveWithinLaneRequest}
       laneId={laneId}
+      editing={note.editing}
     >
       <Edit
         editing={note.editing}

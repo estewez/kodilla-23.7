@@ -25,7 +25,13 @@ export default function notes(state = initialState, action) {
     }
 
     case CREATE_NOTES: {
-      return { ...action.notes };
+      const notesArray = Object.values(action.notes);
+      let notesCopy = { ...action.notes };
+      notesArray.forEach(note => {
+        const noteWithEditing = { ...note, editing: false };
+        notesCopy = { ...notesCopy, [note.id]: noteWithEditing };
+      });
+      return { ...notesCopy };
     }
 
     case MOVE_BETWEEN_LANES: {
