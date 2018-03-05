@@ -42,7 +42,8 @@ export function deleteNote(req, res) {
       lane.notes.pull(note);
       lane.notes.forEach(noteUpdateSort => {
         if (noteUpdateSort.sort > note.sort) {
-          noteUpdateSort.sort -= 1;
+          const noteCopy = noteUpdateSort;
+          noteCopy.sort = noteUpdateSort.sort - 1;
           noteUpdateSort.save();
         }
       });
@@ -55,7 +56,7 @@ export function deleteNote(req, res) {
   });
 }
 
-/* eslint no-param-reassign: ["error", { "props": false }]*/
+
 export function moveNote(req, res) {
   const { noteId, sourceLaneId, targetLaneId } = req.params;
   if (!noteId || !sourceLaneId || !targetLaneId) {
@@ -66,15 +67,17 @@ export function moveNote(req, res) {
       sourceLane.notes.pull(note);
       sourceLane.notes.forEach(noteUpdateSort => {
         if (noteUpdateSort.sort > note.sort) {
-          noteUpdateSort.sort -= 1;
-          noteUpdateSort.save();
+          const noteCopy = noteUpdateSort;
+          noteCopy.sort = noteUpdateSort.sort - 1;
+          noteCopy.save();
         }
       });
       sourceLane.save();
       Lane.findOne({ id: targetLaneId }).then(targetLane => {
-        note.sort = targetLane.notes.length + 1;
-        note.save().then(() => {
-          targetLane.notes.push(note);
+        const noteCopy = note;
+        noteCopy.sort = targetLane.notes.length + 1;
+        noteCopy.save().then(() => {
+          targetLane.notes.push(noteCopy);
           targetLane.save();
         }).then(() => res.json(targetLane));
       });
@@ -89,16 +92,20 @@ export function moveWithin(req, res) {
       Note.findOne({ id: targetId }).then(targetNote => {
         lane.notes.forEach(note => {
           if (note.sort > sourceNote.sort && note.sort <= targetNote.sort) {
-            note.sort -= 1;
-            note.save();
+            const noteCopy = note;
+            noteCopy.sort = note.sort - 1;
+            noteCopy.save();
           } else if (note.sort < sourceNote.sort && note.sort >= targetNote.sort) {
-            note.sort += 1;
-            note.save();
+            const noteCopy = note;
+            noteCopy.sort = note.sort + 1;
+            noteCopy.save();
           }
         });
-        lane.notes.filter(note => note.id === sourceNote.id)[0].sort = targetNote.sort;
-        sourceNote.sort = targetNote.sort;
-        sourceNote.save().then(() => res.json(lane));
+        const laneCopy = lane;
+        laneCopy.notes.filter(note => note.id === sourceNote.id)[0].sort = targetNote.sort;
+        const sourceNoteCopy = sourceNote;
+        sourceNoteCopy.sort = targetNote.sort;
+        sourceNoteCopy.save().then(() => res.json(laneCopy));
       });
     });
   });

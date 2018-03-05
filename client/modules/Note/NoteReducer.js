@@ -25,7 +25,10 @@ export default function notes(state = initialState, action) {
     }
 
     case CREATE_NOTES: {
-      const notesArray = Object.values(action.notes);
+      let notesArray = [];
+      if (action.notes) {
+        notesArray = Object.values(action.notes);
+      }
       let notesCopy = { ...action.notes };
       notesArray.forEach(note => {
         const noteWithEditing = { ...note, editing: false };
